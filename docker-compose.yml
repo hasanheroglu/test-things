@@ -67,11 +67,18 @@ services:
         - PORT_ARG=${MODBUS_ELEVATOR_PORT_OUT}
   reverse-proxy:
     image: traefik:v3.0
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.mydashboard.rule=Host(`localhost`)
+      - traefik.http.routers.mydashboard.service=api@internal
+      - traefik.http.routers.mydashboard.middlewares=myauth
+      - "traefik.http.middlewares.myauth.basicauth.users=${TRAEFIK_DASHBOARD_USER}:${TRAEFIK_DASHBOARD_PASS}"
     command: 
       - "--log.level=DEBUG"
-      - "--api.insecure=true" 
+      - "--api.dashboard=true"
       - "--providers.docker=true"
       - "--entrypoints.web.address=:${WEB_PORT_IN}"
+      - "--entrypoints.mydashboard.address=:${TRAEFIK_DASHBOARD_PORT_IN}"
       - "--entrypoints.modbus-elevator.address=:${MODBUS_ELEVATOR_PORT_IN}"
       - "--entrypoints.coap-calculator-simple.address=:${COAP_SIMPLE_PORT_IN}/udp"
       - "--entrypoints.coap-calculator-content-negotiation.address=:${COAP_NEGOTIATION_PORT_IN}/udp"
