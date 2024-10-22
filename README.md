@@ -29,13 +29,6 @@ Thing Model validation test should be put under Thing's main directory and named
 The Thing Description validation test should be put under the protocol and programming language/framework's test directory and named `td.test.json`.
 For the Thing Description validation test, the device should boot up and to understand the device booted up without any error, a message `"ThingIsReady"` is expected to be prompted to the console by the device.
 
-## Port Configuration
-
-It is possible to run several Things at the same time in a container, which requires a container to expose that many ports.
-Traefik helps with this issue and routes the requests on one exposed port to relevant services inside the container.
-Traefik configuration can be seen inside `docker-compose.yml`.
-It is not possible to route using a path prefix with UDP, therefore port must be exposed for new Things that use UDP.
-
 ## Adding a new Thing
 
 If you are going to add a different protocol for an existing Thing:
@@ -98,7 +91,7 @@ See the mashup's [readme](./mashups/smart-home/README.md).
 
 ### Using docker-compose
 
-You can start the devices inside a container, for that running `docker-compose up` at the root directory builds and runs the containers. For custom configuration, take a look at the `Dockerfile` of each device or [docker-compose.yml](./docker-compose.yml).
+You can start the devices inside a container, for that running `docker-compose up` at the root directory builds and runs the containers. For custom configuration, take a look at the `Dockerfile` of each device or [docker-compose-things.yml](./docker-compose-things.yml).
 
 Docker-compose file uses the images from Docker Hub. If you make any changes in the code build and push the new image with the changes. The command below allows you to create the Docker image for two different platforms you can use (Need permission to be able to push them to the thingweb organization): 
 ```
